@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_chamatech_chamatech,chamatech.chamatech,model_chamatech_chamatech,base.group_user,1,1,1,1
