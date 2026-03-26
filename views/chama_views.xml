@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data>
-    <!-- explicit list view definition -->
-
-    <record id="chamatech.list" model="ir.ui.view">
-      <field name="name">chamatech.list</field>
-      <field name="model">chamatech.chamatech</field>
+    <record id="chamatech_list" model="ir.ui.view">
+      <field name="name">chamatech_list</field> <field name="model">chamatech.chamatech</field>
       <field name="arch" type="xml">
         <list>
           <field name="name"/>
@@ -16,74 +13,44 @@
         </list>
       </field>
     </record>
-    <!-- This is a chama tech form view -->
-    <record id="chamatech.form" model="ir.ui.view">
-      <field name="name">chamatech.form</field>
-      <field name="model">chamatech.chamatech</field>
+
+    <record id="chamatech_form" model="ir.ui.view">
+      <field name="name">chamatech_form</field> <field name="model">chamatech.chamatech</field>
       <field name="arch" type="xml">
-        <list>
-          <field name="name"/>
-          <field name="amount"/>
-          <field name="description"/>
-          <field name="status" widget="statusbar"/>
-          <field name="frequency"/>
-        </list>
+        <form> <header>
+            <field name="status" widget="statusbar"/>
+          </header>
+          <sheet> <group>
+              <field name="name"/>
+              <field name="amount"/>
+              <field name="description"/>
+              <field name="frequency"/>
+            </group>
+          </sheet>
+        </form>
       </field>
     </record>
-    <!-- actions opening views on models -->
 
-    <record model="ir.actions.act_window" id="chamatech.action_window">
-      <field name="name">chamatech window</field>
+    <record id="chamatech_action_window" model="ir.actions.act_window">
+      <field name="name">Chama Tech</field>
       <field name="res_model">chamatech.chamatech</field>
       <field name="view_mode">list,form</field>
-    </record>
-    
-    <record id="action_chama_form" model="ir.actions.act_window">
-            <field name="name">Chama Tech</field>
-            <field name="res_model">chamatech.chamatech</field>
-            <field name="view_mode">list,form</field>
-            <!-- <field name="search_view_id" ref="view_account_search"/> -->
-            <!-- <field name="view_id" ref="view_account_list"/> -->
-            <field name="help" type="html">
-              <p class="o_view_nocontent_smiling_face">
-                Add a new record
-              </p><p>
-                Welcome to Chama Tech make your first contribution
-              </p>
-            </field>
-        </record>
-
-    <!-- server action to the one above -->
-<!--
-    <record model="ir.actions.server" id="chama-tech.action_server">
-      <field name="name">chama-tech server</field>
-      <field name="model_id" ref="model_chama-tech_chama-tech"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "list,form",
-          "res_model": model._name,
-        }
+      <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+          Add a new record
+        </p>
+        <p>
+          Welcome to Chama Tech, make your first contribution.
+        </p>
       </field>
     </record>
--->
 
-    <!-- Top menu item -->
+    <menuitem name="Chamatech" id="chamatech_menu_root"/>
 
-    <menuitem name="chamatech" id="chamatech.menu_root"/>
-
-    <!-- menu categories -->
-
-    <menuitem name="Menu 1" id="chamatech.menu_1" parent="chamatech.menu_root"/>
-    <menuitem name="Menu 2" id="chamatech.menu_2" parent="chamatech.menu_root"/>
-
-    <!-- actions -->
-
-    <menuitem name="List" id="chamatech.menu_1_list" parent="chamatech.menu_1"
-              action="chamatech.action_window"/>
-    <menuitem name="Server to list" id="chamatech" parent="chamatech.menu_2"
-              action="chamatech.action_server"/>
-
-  </data>
+    <menuitem name="Menu 1" id="chamatech_menu_1" 
+              parent="chamatech_menu_root"/>
+    
+    <menuitem name="List" id="chamatech_menu_1_list" 
+              parent="chamatech_menu_1" 
+              action="chamatech_action_window"/> </data>
 </odoo>
