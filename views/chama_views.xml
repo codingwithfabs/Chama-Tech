@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data>
+    <!-- Views -->
     <record id="chamatech_list" model="ir.ui.view">
-      <field name="name">chamatech_list</field> <field name="model">chamatech.chamatech</field>
+      <field name="name">chamatech_list</field> 
+      <field name="model">chamatech.chamatech</field>
       <field name="arch" type="xml">
         <list>
           <field name="name"/>
@@ -14,6 +16,18 @@
       </field>
     </record>
 
+    <record id="chamatech_pivot" model="ir.ui.view">
+      <field name="name">chamatech_pivot</field>
+      <field name="model">chamatech.chamatech</field>
+      <field name="arch" type="xml">
+        <pivot string="Financial Analysis" disable_linking="true">
+          <field name="name" type="row" />
+          <field name="amount" type="measure" />
+        </pivot>
+      </field>
+    </record>
+
+    <!-- Form -->
     <record id="chamatech_form" model="ir.ui.view">
       <field name="name">chamatech_form</field> <field name="model">chamatech.chamatech</field>
       <field name="arch" type="xml">
