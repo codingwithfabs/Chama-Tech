@@ -17,16 +17,20 @@
     <record id="chamatech_form" model="ir.ui.view">
       <field name="name">chamatech_form</field> <field name="model">chamatech.chamatech</field>
       <field name="arch" type="xml">
-        <form> <header>
+        <form> 
+          <header>
             <field name="status" widget="statusbar"/>
           </header>
-          <sheet> <group>
+          <sheet> 
+            <group>
               <field name="name"/>
               <field name="amount"/>
               <field name="description"/>
               <field name="frequency"/>
+              <field name="status"/>
             </group>
           </sheet>
+          <chatter/>
         </form>
       </field>
     </record>
@@ -34,7 +38,7 @@
     <record id="chamatech_action_window" model="ir.actions.act_window">
       <field name="name">Chama Tech</field>
       <field name="res_model">chamatech.chamatech</field>
-      <field name="view_mode">list,form</field>
+      <field name="view_mode">list,form,kanban,pivot,graph</field>
       <field name="help" type="html">
         <p class="o_view_nocontent_smiling_face">
           Add a new record
@@ -45,12 +49,12 @@
       </field>
     </record>
 
-    <menuitem name="Chamatech" id="chamatech_menu_root"/>
+    <menuitem name="ChamaTech" id="chamatech_menu_root"/>
 
-    <menuitem name="Menu 1" id="chamatech_menu_1" 
+    <menuitem name="Admin" id="chamatech_menu_1" 
               parent="chamatech_menu_root"/>
     
-    <menuitem name="List" id="chamatech_menu_1_list" 
+    <menuitem name="Members" id="chamatech_menu_1_list" 
               parent="chamatech_menu_1" 
               action="chamatech_action_window"/> </data>
 </odoo>
