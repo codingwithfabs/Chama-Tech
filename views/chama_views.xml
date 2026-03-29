@@ -2,6 +2,7 @@
 <odoo>
   <data>
     <!-- Views -->
+      <!-- List -->
     <record id="chamatech_list" model="ir.ui.view">
       <field name="name">chamatech_list</field> 
       <field name="model">chamatech.chamatech</field>
@@ -15,7 +16,7 @@
         </list>
       </field>
     </record>
-
+    <!-- Pivot -->
     <record id="chamatech_pivot" model="ir.ui.view">
       <field name="name">chamatech_pivot</field>
       <field name="model">chamatech.chamatech</field>
@@ -24,6 +25,39 @@
           <field name="name" type="row" />
           <field name="amount" type="measure" />
         </pivot>
+      </field>
+    </record>
+
+    <!-- Kanban -->
+    <record id="chamatech_kanban" model="ir.ui.view">
+      <field name="name">chamatech_kanban</field>
+      <field name="model">chamatech.chamatech</field>
+      <field name="arch" type="xml">
+        <kanban default_group_by="status">
+          <field name="name" />
+          <field name="amount" />
+          <field name="status" />
+          <field name="frequency" />
+          <templates>
+            <t t-name="card">
+              <div class="oe_kanban_global_click">
+                <div class="o_kanban_record_top">
+                  <strong>
+                    <field name="name" />
+                  </strong>
+                </div>
+                <div class="oe_kanban_details">
+                  <span>Amount: </span> <field name="amount" />
+                  <br/>
+                  <span>Frequency: </span> <field name="frequency" />
+                </div>
+                <div class="o_kanban_record_bottom">
+                  <span>Status: </span> <field name="status" />
+                </div>
+              </div>
+            </t>
+          </templates>
+        </kanban>
       </field>
     </record>
 
