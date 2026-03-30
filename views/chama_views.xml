@@ -24,6 +24,8 @@
         <pivot string="Financial Analysis" disable_linking="true">
           <field name="name" type="row" />
           <field name="amount" type="measure" />
+          <!-- <field name="status" type="col"/> -->
+          <field name="frequency" type="col" /> 
         </pivot>
       </field>
     </record>

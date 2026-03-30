@@ -1,1 +1,1 @@
-from . import chama
+from . import chama, member
