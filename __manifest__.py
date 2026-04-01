@@ -23,6 +23,7 @@ Chama-Tech is a financial contribution management platform designed for Kenyan i
     'data': [
         'security/ir.model.access.csv',
         'views/chama_views.xml',
+        'views/member_views.xml',
     ],
     # only loaded in demonstration mode
     

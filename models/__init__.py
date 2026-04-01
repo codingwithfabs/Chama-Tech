@@ -1,3 +1,3 @@
-from . import chamatech
+from . import chama
 from . import member
 from . import role

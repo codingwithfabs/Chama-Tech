@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- List View -->
+        <record id="chamamember_list" model="ir.ui.view">
+            <field name="name">chamamember_list</field>
+            <field name="model">chamatech.member</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="name" />
+                    <field name="phone" />
+                    <field name="role_id" />
+                </list>
+            </field>
+        </record>
+
+        <record id="chamamember_action_window" model="ir.actions.act_window">
+            <field name="name">Chama Member</field>
+            <field name="res_model">chamatech.member</field>
+            <field name="view_mode">list,form,kanban,pivot,graph</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first member
+                </p>
+                <p>
+                    Add the people in your group here so you can start tracking their contributions and roles.
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="ChamaTech" id="chamatech_menu_root"/>
+
+        <menuitem name="Admin" id="chamatech_menu_1" 
+              parent="chamatech_menu_root"/>
+    
+        <menuitem name="Members" id="chamatech_menu_1_list" 
+              parent="chamatech_menu_1" 
+              action="chamatech_action_window"/>
+
+
+    </data>
+    
+</odoo>
