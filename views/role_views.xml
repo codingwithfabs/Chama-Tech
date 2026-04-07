@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- List View -->
+        <record id="chamarole_list" model="ir.ui.view">
+            <field name="name">chamarole_list</field>
+            <field name="model">chamatech.role</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="name" />
+                    <field name="availability" />
+                </list>
+            </field>
+        </record>
+
+        <record id="chamarole_action_window" model="ir.actions.act_window">
+            <field name="name">Chama Role's</field>
+            <field name="res_model">chamatech.role</field>
+            <field name="view_mode">list,form,kanban,pivot,graph</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Assign your first role
+                </p>
+                <p>
+                    Manage your members by assigning roles
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -16,6 +16,8 @@ class ChamaTech(models.Model):
     frequency = fields.Selection(selection=[("daily", "Daily"),
                                             ("weekly", "Weekly"),
                                             ("monthly", "Monthly")], string="Frequency", required=True, tracking=True)
+
+    date = fields.Datetime(string="Date of Contribution", required=True, tracking=True, default=fields.Date.today)
     # @api.depends('value')
     # def _value_pc(self):
     #     for record in self:

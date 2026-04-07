@@ -13,6 +13,7 @@
           <field name="description"/>
           <field name="status"/>
           <field name="frequency"/>
+          <field name="date" />
         </list>
       </field>
     </record>
@@ -78,6 +79,7 @@
               <field name="description"/>
               <field name="frequency"/>
               <field name="status"/>
+              <field name="date" />
             </group>
           </sheet>
           <chatter/>
@@ -98,13 +100,5 @@
         </p>
       </field>
     </record>
-
-    <menuitem name="ChamaTech" id="chamatech_menu_root"/>
-
-    <menuitem name="Admin" id="chamatech_menu_1" 
-              parent="chamatech_menu_root"/>
-    
-    <menuitem name="Members" id="chamatech_menu_1_list" 
-              parent="chamatech_menu_1" 
-              action="chamatech_action_window"/> </data>
+  </data>
 </odoo>
