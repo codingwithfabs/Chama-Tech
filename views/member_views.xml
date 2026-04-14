@@ -15,6 +15,25 @@
             </field>
         </record>
 
+        <!-- Form -->
+        <record id="member_form" model="ir.ui.view">
+            <field name="name">member_form</field>
+            <field name="model">chamatech.member</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" />
+                            <field name="phone" />
+                            <field name="role_id" />
+                        </group>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action Window -->
         <record id="chamamember_action_window" model="ir.actions.act_window">
             <field name="name">Chama Member</field>
             <field name="res_model">chamatech.member</field>
