@@ -1,12 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-    
-        <record id="mycontributions_list" model="ir.ui.view">
-            <field name="name">mycontributions_list</field>
+        <!-- List View -->
+        <record id="mycontribution_list" model="ir.ui.view">
+            <field name="name">mycontribution_list</field>
             <field name="model">chamatech.mycontribution</field>
+            <field name="arch" type="xml">
+                <list decoration-info="state == 'draft'" decoration-success="state == 'validated'" decoration-danger="state == 'refused'">
+                    <field name="date"/>
+                    <field name="member_id"/>
+                    <field name="transaction_id"/>
+                    <field name="amount" sum="Total Amount"/>
+                    <field name="state" widget="badge" decoration-info="state == 'pending'" decoration-success="state == 'validated'"/>
+                </list>
+            </field>
         </record>
-    
+
+        <!-- Form -->
+        <record id="mycontribution_form" model="ir.ui.view">
+            <field name="name">mycontribution_form</field>
+            <field name="model">chamatech.mycontribution</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_submit" string="Submit" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                        <button name="action_validate" string="Validate" type="object" class="oe_highlight" invisible="state != 'pending'" groups="base.group_system"/>
+                        <button name="action_refuse" string="Refuse" type="object" invisible="state != 'pending'" groups="base.group_system"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,pending,validated"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="member_id" readonly="1"/>
+                                <field name="amount"/>
+                                <field name="currency_id" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="date"/>
+                                <field name="method"/>
+                                <field name="transaction_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <chartter/>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_my_contributions" model="ir.actions.act_window">
+            <field name="name">My Contributions</field>
+            <field name="res_model">chamatech.mycontribution</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Log your first contribution!</p>
+            </field>
+        </record>
     </data>
-    
 </odoo>

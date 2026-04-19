@@ -1,33 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <menuitem name="ChamaTech" id="chamatech_menu_root" sequence="10"/>
 
-    <menuitem name="ChamaTech" id="chamatech_menu_root"/>
-
-    <menuitem name="Admin" id="chamatech_menu_1" 
-              parent="chamatech_menu_root"/>
+    <menuitem name="My Account" id="chamatech_menu_member_root" 
+              parent="chamatech_menu_root" sequence="10"/>
     
-    <menuitem name="Contribution List" id="chamatech_menu_1_list" 
+    <menuitem name="My Contributions" id="chamatech_menu_my_contributions" 
+              parent="chamatech_menu_member_root" 
+              action="action_my_contributions" sequence="10"/>
+
+    <menuitem name="Management" id="chamatech_menu_1" 
+              parent="chamatech_menu_root" sequence="20"/>
+    
+    <menuitem name="All Contributions" id="chamatech_menu_1_list" 
               parent="chamatech_menu_1" 
-              action="chamatech_action_window"/>
+              action="chamatech_action_window" sequence="10"/>
 
-    <menuitem name="ChamaTech" 
-              id="chamatech_menu_root" 
-              sequence="10"/>
+    <menuitem name="Users &amp; Config" id="chamatech_menu_user_category" 
+              parent="chamatech_menu_root" sequence="30"/>
 
-    <menuitem name="User" 
-              id="chamatech_menu_user_category" 
-              parent="chamatech_menu_root" 
-              sequence="10"/>
-
-    <menuitem name="Members" 
-              id="chamatech_menu_member_list" 
+    <menuitem name="Members" id="chamatech_menu_member_list" 
               parent="chamatech_menu_user_category" 
-              action="chamamember_action_window" 
-              sequence="10"/>
+              action="chamamember_action_window" sequence="10"/>
 
-    <menuitem name="Roles" 
-              id="chamatech_menu_role_list" 
+    <menuitem name="Roles" id="chamatech_menu_role_list" 
               parent="chamatech_menu_user_category" 
-              action="chamarole_action_window" 
-              sequence="20"/>
+              action="chamarole_action_window" sequence="20"/>
 </odoo>
