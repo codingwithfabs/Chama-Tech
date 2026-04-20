@@ -1,0 +1,9 @@
+<template id="chama_portal" inherit_id="portal.chama_portal" priority="20">
+    <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+        <t t_call="portal.portal_docs_entry">
+            <field name="title">My Contributions</field>
+            <field name="url" t_attf-content="/my/contributions/" />
+            <field name="placeholder_count" t_attf-content="contribution_count" />
+        </t>
+    </xpath>
+</template>
