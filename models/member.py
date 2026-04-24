@@ -9,6 +9,19 @@ class ChamaMember(models.Model):
     phone = fields.Char(string="Mpesa Number", required=True, tracking=True)
     role_id = fields.Many2one('chamatech.role', string="Role", required=True, tracking=True)
 
+    # Link to the list of contributions
+    contribution_ids = fields.One2many('chamatech.contribution', 'member_id', string="Contributions")
+
+    # Total sum field
+    total_contributions = fields.Float(string="Total Contributions", compute='_compute_total_contributions', store=True, tracking=True)
+
+    @api.depends('contribution_ids.amount')
+    def _compute_total_contributions(self):
+        for member in self:
+            confirmed = member.contribution_ids.filtered(lambda c: c.state == 'confirmed')
+            #Sum up all the amounts in the contribution_ids list
+            member.total_contributions = sum(member.contribution_ids.mapped('amount'))
+
     @api.model_create_multi
     def create(self, vals_list):
         # 1. Create the members first
