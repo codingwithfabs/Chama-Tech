@@ -7,3 +7,4 @@ access_member_user,member.user,model_chamatech_member,base.group_user,1,1,1,0
 access_member_portal,member.portal,model_chamatech_member,base.group_portal,1,0,0,0
 access_role_user,role.user,model_chamatech_role,base.group_user,1,0,0,0
 access_role_portal,role.portal,model_chamatech_role,base.group_portal,1,0,0,0
+access_role_history,role.history.user,model_chamatech_role_history,base.group_user,1,1,1,1
