@@ -23,7 +23,7 @@
                         <group>
                             <field name="name" />
                             <field name="availability" />
-                            <field name="member_ids" widget="many2many_tags" readonly="1"/>
+                            <field name="member_ids" widget="list" readonly="1"/>
                         </group>
                         <notebook>
                             <page string="Ownership History" name="history">
