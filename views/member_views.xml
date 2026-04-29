@@ -17,7 +17,7 @@
 
         <!-- Form -->
         <record id="member_form" model="ir.ui.view">
-            <field name="name">member_form</field>
+            <field name="name">member.form</field>
             <field name="model">chamatech.member</field>
             <field name="arch" type="xml">
                 <form>
@@ -30,6 +30,29 @@
                     </sheet>
                     <chatter/>
                 </form>
+            </field>
+        </record>
+
+        <record id="view_chama_member_form_inherit" model="ir.ui.view">
+            <field name="name">chamatech.member.form.inherit</field>
+            <field name="model">chamatech.member</field>
+            <field name="inherit_id" ref="chama_tech.member_form"/> 
+            <field name="arch" type="xml">
+                <xpath expr="//group" position="after">
+                    <group>
+                        <field name="total_contributions" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Contributions" name="contributions">
+                            <field name="contribution_ids">
+                                <list editable="bottom">
+                                    <field name="date"/>
+                                    <field name="amount" sum="Total"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </xpath>
             </field>
         </record>
 

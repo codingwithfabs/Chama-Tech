@@ -14,8 +14,8 @@
         </record>
 
         <!-- Form -->
-        <record id="view_chama_role_form" model="ir.ui.view">
-            <field name="name">chamatech.role.form</field>
+        <record id="roles_form" model="ir.ui.view">
+            <field name="name">roles_form</field>
             <field name="model">chamatech.role</field>
             <field name="arch" type="xml">
                 <form>

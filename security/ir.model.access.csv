@@ -1,3 +1,9 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_chamatech_chamatech,chamatech.chamatech,model_chamatech_chamatech,base.group_user,1,1,1,1
 access_contribution_user,contribution_user,model_chamatech_mycontribution,base.group_user,1,1,1,1
+access_chamatech_main,chamatech.main,model_chamatech_chamatech,base.group_user,1,1,1,1
+access_mycontribution_user,mycontribution.user,model_chamatech_mycontribution,base.group_user,1,1,1,1
+access_all_contribution_user,all_contribution.user,model_chamatech_contribution,base.group_user,1,1,1,1
+access_member_user,member.user,model_chamatech_member,base.group_user,1,1,1,0
+access_role_user,role.user,model_chamatech_role,base.group_user,1,0,0,0
+access_role_history,role.history.user,model_chamatech_role_history,base.group_user,1,1,1,1
