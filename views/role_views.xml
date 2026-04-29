@@ -31,11 +31,13 @@
                                     <list>
                                         <field name="member_id" />
                                         <field name="date_assigned" />
+                                        <field name="date_resigned" />
                                     </list>
                                 </field>
                             </page>
                         </notebook>
                     </sheet>
+                    <chatter/>
                 </form>
             </field>
         </record>
