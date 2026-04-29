@@ -17,7 +17,7 @@
 
         <!-- Form -->
         <record id="member_form" model="ir.ui.view">
-            <field name="name">member_form</field>
+            <field name="name">member.form</field>
             <field name="model">chamatech.member</field>
             <field name="arch" type="xml">
                 <form>
