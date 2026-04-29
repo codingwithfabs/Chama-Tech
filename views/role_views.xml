@@ -14,13 +14,8 @@
         </record>
 
         <!-- Form -->
-<<<<<<< HEAD
-        <record id="view_chama_role_form" model="ir.ui.view">
-            <field name="name">chamatech.role.form</field>
-=======
         <record id="roles_form" model="ir.ui.view">
             <field name="name">roles_form</field>
->>>>>>> main
             <field name="model">chamatech.role</field>
             <field name="arch" type="xml">
                 <form>
@@ -28,7 +23,6 @@
                         <group>
                             <field name="name" />
                             <field name="availability" />
-<<<<<<< HEAD
                             <field name="member_ids" widget="many2many_tags" readonly="1"/>
                         </group>
                         <notebook>
@@ -41,9 +35,6 @@
                                 </field>
                             </page>
                         </notebook>
-=======
-                        </group>
->>>>>>> main
                     </sheet>
                 </form>
             </field>
