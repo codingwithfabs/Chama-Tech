@@ -1,0 +1,14 @@
+# Python cache (The main cause of your current conflicts)
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+# Odoo specific
+*.log
+/filestore/
+/sessions/
+
+# Editor settings
+.vscode/
+.idea/
+.DS_Store
