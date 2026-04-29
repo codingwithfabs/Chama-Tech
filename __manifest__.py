@@ -17,7 +17,7 @@ Chama-Tech is a financial contribution management platform designed for Kenyan i
     'version': '1.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'contacts', 'mail', 'portal'],
+    'depends': ['base', 'contacts', 'mail'],
 
     # always loaded
     'data': [
