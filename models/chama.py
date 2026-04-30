@@ -5,6 +5,7 @@ class ChamaTech(models.Model):
     _name = 'chamatech.chamatech'
     _description = 'chamatech'
     _inherit = ['mail.thread', 'mail.activity.mixin']
+    _order = "amount desc"
 
     name = fields.Many2one('res.partner', string="Member Name", required=True, tracking=True)
     amount = fields.Integer(string="Amount", required=True, tracking=True)

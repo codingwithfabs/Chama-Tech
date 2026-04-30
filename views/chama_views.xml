@@ -7,11 +7,11 @@
       <field name="name">chamatech_list</field> 
       <field name="model">chamatech.chamatech</field>
       <field name="arch" type="xml">
-        <list>
-          <field name="name"/>
-          <field name="amount"/>
+        <list default_order="amount desc" decoration-bf="amount > 1000">
+          <field name="name" widget="many2one_avatar"/>
+          <field name="amount" sum="Total Contributions"/>
           <field name="description"/>
-          <field name="status"/>
+          <field name="status" widget="badge" decoration-info="status == 'in_progress'" decoration-success="status == 'goal_reached'"/>
           <field name="frequency"/>
           <field name="date" />
         </list>
