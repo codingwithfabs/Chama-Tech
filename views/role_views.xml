@@ -23,8 +23,21 @@
                         <group>
                             <field name="name" />
                             <field name="availability" />
+                            <field name="member_ids" widget="many2many_tags" readonly="1"/>
                         </group>
+                        <notebook>
+                            <page string="Ownership History" name="history">
+                                <field name="history_ids" readonly="1">
+                                    <list>
+                                        <field name="member_id" />
+                                        <field name="date_assigned" />
+                                        <field name="date_resigned" />
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
                     </sheet>
+                    <chatter/>
                 </form>
             </field>
         </record>

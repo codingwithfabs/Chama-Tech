@@ -20,3 +20,44 @@ class ChamaMember(models.Model):
             ])
             if duplicate:
                 raise ValidationError(f"The role '{member.role_id.name}' is already assigned to {duplicate[0].name}.")
+    # Link to the list of contributions
+    contribution_ids = fields.One2many('chamatech.contribution', 'member_id', string="Contributions")
+
+    # Total sum field
+    total_contributions = fields.Float(string="Total Contributions", compute='_compute_total_contributions', store=True, tracking=True)
+
+    @api.depends('contribution_ids.amount')
+    def _compute_total_contributions(self):
+        for member in self:
+            confirmed = member.contribution_ids.filtered(lambda c: c.state == 'confirmed')
+            #Sum up all the amounts in the contribution_ids list
+            member.total_contributions = sum(member.contribution_ids.mapped('amount'))
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        # 1. Create the members first
+        members = super(ChamaMember, self).create(vals_list)
+        
+        # 2. Log the initial role assignment in history
+        for member in members:
+            if member.role_id:
+                self.env['chamatech.role.history'].create({
+                    'role_id': member.role_id.id,
+                    'member_id': member.id,
+                })
+        return members
+
+    def write(self, vals):
+        # 1. Standard save
+        res = super(ChamaMember, self).write(vals)
+    
+        # 2. Log history ONLY if the role actually changed
+        if 'role_id' in vals:
+            for member in self:
+                if member.role_id:
+                    self.env['chamatech.role.history'].create({
+                        'role_id': member.role_id.id,
+                        'member_id': member.id,
+                        'date_assigned': fields.Date.context_today(member),
+                    })
+        return res
