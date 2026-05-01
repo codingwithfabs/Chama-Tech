@@ -13,6 +13,27 @@
             </field>
         </record>
 
+        <record id="view_chamatech_role_history_form" model="ir.ui.view">
+            <field name="name">chamatech.role.history.form</field>
+            <field name="model">chamatech.role.history</field>
+            <field name="arch" type="xml">
+                <form string="Role History">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="member_id" readonly="1"/>
+                                <field name="role_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="date_assigned" readonly="1"/>
+                                <field name="date_resigned" readonly="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
         <!-- Form -->
         <record id="roles_form" model="ir.ui.view">
             <field name="name">roles_form</field>
@@ -28,8 +49,9 @@
                         <notebook>
                             <page string="Ownership History" name="history">
                                 <field name="history_ids" readonly="1">
-                                    <list>
+                                    <list create="false" edit="false">
                                         <field name="member_id" />
+                                        <field name="role_id" />
                                         <field name="date_assigned" />
                                         <field name="date_resigned" />
                                     </list>
