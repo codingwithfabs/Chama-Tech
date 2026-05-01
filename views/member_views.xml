@@ -11,6 +11,7 @@
                     <field name="name" />
                     <field name="phone" />
                     <field name="role_id" />
+                    <field name="date_joined" /> <field name="total_contributions" sum="Grand Total" />
                 </list>
             </field>
         </record>
@@ -23,13 +24,32 @@
                 <form>
                     <sheet>
                         <group>
-                            <field name="name" />
-                            <field name="phone" />
-                            <field name="role_id" />
+                            <group>
+                                <field name="partner_id" widget="many2one_avatar" context="{'show_address': 1}" />
+                                <field name="phone" />
+                                <field name="role_id" />
+                            </group>
+                            <group>
+                                <field name="date_joined" />
+                                <field name="date_left" invisible="not date_left" />
+                                <field name="active" widget="boolean_toggle" />
+                            </group>
                         </group>
                     </sheet>
                     <chatter/>
                 </form>
+            </field>
+        </record>
+
+        <!-- Search view filter -->
+        <record id="view_member_filter" model="ir.ui.view">
+            <field name="name">chamatech.member.search</field>
+            <field name="model">chamatech.member</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                </search>
             </field>
         </record>
 
