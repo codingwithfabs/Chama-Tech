@@ -9,4 +9,3 @@ class ChamaRoleHistory(models.Model):
     role_id = fields.Many2one('chamatech.role', string="Role")
     date_assigned = fields.Date(string="Date Assigned", default=fields.Date.context_today)
     date_resigned = fields.Date(string="Date Resigned")
-    
