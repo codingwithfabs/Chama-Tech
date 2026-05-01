@@ -40,14 +40,28 @@ class ChamaMember(models.Model):
                 self.env['chamatech.role.history'].create({
                     'role_id': member.role_id.id,
                     'member_id': member.id,
+                    'date_assigned': fields.Date.context_today(member),
                 })
         return members
 
     def write(self, vals):
-        # 1. Standard save
+        # 1. If the role is changing, 'close' the old history record first
+        if 'role_id' in vals:
+            for member in self:
+                # Find the current active role history (no resignation date set)
+                old_history = self.env['chamatech.role.history'].search([
+                ('member_id', '=', member.id),
+                ('role_id', '=', member.role_id.id),
+                ('date_resigned', '=', False)
+                ], limit=1)
+
+                if old_history:
+                    old_history.write({'date_resigned': fields.Date.context_today(member)})
+
+        # 2. Standard save to update the actual member record
         res = super(ChamaMember, self).write(vals)
-    
-        # 2. Log history ONLY if the role actually changed
+
+        # 3. Log the NEW history if the role changes
         if 'role_id' in vals:
             for member in self:
                 if member.role_id:
