@@ -7,7 +7,7 @@ class ChamaTech(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = "amount desc"
 
-    name = fields.Many2one('res.partner', string="Member Name", required=True, tracking=True)
+    name = fields.Many2one('res.partner', string="Member Name", required=True, tracking=True, default=lambda self: self.env.user.partner_id)
     amount = fields.Integer(string="Amount", required=True, tracking=True)
     target_amount = fields.Integer(string="Goal Target", required=True, tracking=True, default=1000)
     description = fields.Text(string="Decription", required=True, tracking=True)
