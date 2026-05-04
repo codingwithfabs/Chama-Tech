@@ -10,7 +10,7 @@
         <list default_order="amount desc" decoration-bf="amount > 1000">
           <field name="name" widget="many2one_avatar"/>
           <field name="amount" sum="Total Contributions"/>
-          <field name="description"/>
+          <field name="target_amount" /> <field name="description"/>
           <field name="status" widget="badge" decoration-info="status == 'in_progress'" decoration-success="status == 'goal_reached'"/>
           <field name="frequency"/>
           <field name="date" />
@@ -75,12 +75,19 @@
           </header>
           <sheet> 
             <group>
-              <field name="name"/>
-              <field name="amount"/>
-              <field name="description"/>
-              <field name="frequency"/>
-              <field name="status"/>
-              <field name="date" />
+                <group>
+                    <field name="name"/>
+                    <field name="amount"/>
+                    <field name="target_amount"/>
+                </group>
+                <group>
+                    <field name="frequency"/>
+                    <field name="date" />
+                    <field name="status" readonly="1" force_save="1"/>
+                </group>
+            </group>
+            <group>
+                <field name="description"/>
             </group>
           </sheet>
           <chatter/>
