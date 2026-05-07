@@ -16,18 +16,18 @@ class ChamaRole(models.Model):
 
     # Relationships
     history_ids = fields.One2many('chamatech.role.history', 'role_id', string="History")
-    member_ids = fields.One2many('chamatech.member', 'role_id', string="Current Members")
 
-    @api.depends('member_ids')
+    @api.depends('name')
     def _compute_availability(self):
         """Sets role to 'filled' if any member is assigned, otherwise 'available'"""
         for role in self:
-            # For roles with more than 1 slot (Welfare/Standard), 
-            # we check if it has reached its specific capacity
+            # We now use search_count to find current members assigned to this role ID
+            currenet_usage = self.env['chamatech.member'].search_count(['role_id' '=', role.id])
+
             limits = self._get_role_limits()
             max_slots = limits.get(role.name, 1)
-            
-            if len(role.member_ids) >= max_slots:
+
+            if currenet_usage >= max_slots:
                 role.availability = 'filled'
             else:
                 role.availability = 'available'
