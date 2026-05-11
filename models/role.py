@@ -7,6 +7,8 @@ class ChamaRole(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(string="Role Name", required=True, tracking=True)
+
+    max_slots = fields.Integer(string="Max Slots", default=1, required=True)
     
     # Selection field for availability status
     availability = fields.Selection([
@@ -17,17 +19,13 @@ class ChamaRole(models.Model):
     # Relationships
     history_ids = fields.One2many('chamatech.role.history', 'role_id', string="History")
 
-    @api.depends('name')
+    @api.depends('max_slots')
     def _compute_availability(self):
         """Sets role to 'filled' if any member is assigned, otherwise 'available'"""
         for role in self:
-            # We now use search_count to find current members assigned to this role ID
-            currenet_usage = self.env['chamatech.member'].search_count(['role_id' '=', role.id])
+            current_usage = self.env['chamatech.member'].search_count([('role_id', '=', role.id)])
 
-            limits = self._get_role_limits()
-            max_slots = limits.get(role.name, 1)
-
-            if currenet_usage >= max_slots:
+            if current_usage >= role.max_slots:
                 role.availability = 'filled'
             else:
                 role.availability = 'available'
@@ -44,24 +42,22 @@ class ChamaRole(models.Model):
             'System Admin': 1,
         }
 
-    @api.constrains('member_ids', 'name')
+    @api.constrains('max_slots', 'name')
     def _check_role_structure(self):
-        """Validates the specific quota for each role and the total limit of 11"""
-        limits = self._get_role_limits()
-        
-        # 1. Check individual role quotas
         for role in self:
-            if role.name in limits:
-                current_usage = len(role.member_ids)
-                if current_usage > limits[role.name]:
-                    raise ValidationError(
-                        f"Limit Reached: The role '{role.name}' only allows {limits[role.name]} member(s). "
-                        f"You currently have {current_usage} assigned."
-                    )
+            current_usage = self.env['chamatech.member'].search_count([('role_id', '=', role.id)])
+            if current_usage > role.max_slots:
+                raise ValidationError(
+                    f"Limit Reached: {role.name} only allows {role.max_slots} members."
+                )
 
-        # 2. Total System Check (Across all roles)
+        # Dynamic Total System Check
+        # We fetch the limit from Odoo's System Parameters (defaulting to 11)
+        total_limit_str = self.env['ir.config_parameter'].sudo().get_param('chamatech.total_member_limit', '11')
+        total_limit = int(total_limit_str)
+        
         all_members_count = self.env['chamatech.member'].search_count([])
-        if all_members_count > 11:
+        if all_members_count > total_limit:
             raise ValidationError(
-                "Total System Limit: The Chama is limited to 11 total members across all roles."
+                f"The system is currently configured for a maximum of {total_limit} members."
             )
