@@ -30,17 +30,6 @@ class ChamaRole(models.Model):
             else:
                 role.availability = 'available'
 
-    def _get_role_limits(self):
-        """Centralized definition of Chama structure"""
-        return {
-            'Chairperson': 1,
-            'Secretary': 1,
-            'Treasurer': 1,
-            'Vice Chairperson': 1,
-            'Welfare Officer': 2,
-            'Member': 4,
-            'System Admin': 1,
-        }
 
     @api.constrains('max_slots', 'name')
     def _check_role_structure(self):
@@ -50,14 +39,3 @@ class ChamaRole(models.Model):
                 raise ValidationError(
                     f"Limit Reached: {role.name} only allows {role.max_slots} members."
                 )
-
-        # Dynamic Total System Check
-        # We fetch the limit from Odoo's System Parameters (defaulting to 11)
-        total_limit_str = self.env['ir.config_parameter'].sudo().get_param('chamatech.total_member_limit', '11')
-        total_limit = int(total_limit_str)
-        
-        all_members_count = self.env['chamatech.member'].search_count([])
-        if all_members_count > total_limit:
-            raise ValidationError(
-                f"The system is currently configured for a maximum of {total_limit} members."
-            )

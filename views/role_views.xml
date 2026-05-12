@@ -47,10 +47,9 @@
                         </group>
                         <notebook>
                             <page string="Ownership History" name="history">
-                                <field name="history_ids">
-                                    <list create="false" edit="true">
+                                <field name="history_ids" readonly="1"> <list create="false" edit="false">
                                         <field name="member_id" />
-                                        <field name="role_id" />
+                                        <field name="role_id" column_invisible="True"/>
                                         <field name="date_assigned" />
                                         <field name="date_resigned" />
                                     </list>
