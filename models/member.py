@@ -15,10 +15,10 @@ class ChamaMember(models.Model):
     date_left = fields.Date(string="Date Left", tracking=True, help="The date this member officially left the Chama.")
 
     # Link to the list of contributions
-    contribution_ids = fields.One2many('chamatech.contribution', 'member_id', string="Contributions")
+    contribution_ids = fields.One2many('chamatech.mycontribution', 'member_id', string="Contributions")
 
     # Total sum field
-    total_contributions = fields.Float(string="Total Contributions", compute='_compute_total_contributions', store=False, tracking=True)
+    total_contributions = fields.Float(string="Total Contributions", compute='_compute_total_contributions', store=True, tracking=True)
 
     history_ids = fields.One2many('chamatech.role.history', 'member_id', string="Role History")
 
@@ -45,12 +45,11 @@ class ChamaMember(models.Model):
     @api.depends('contribution_ids.amount', 'contribution_ids.state')
     def _compute_total_contributions(self):
         for member in self:
-            # We use a direct loop to ensure we catch 'NewId' records in the UI
-            contributions = member.contribution_ids
-            
-            # This sums confirmed amounts only
-            total = sum(c.amount for c in contributions if c.state == 'confirmed')
-            
+            # We explicity loop to avoid any recordset caching issues
+            total = 0.0
+            for line in member.contribution_ids:
+                if line.state == 'validated':
+                    total += line.amount
             member.total_contributions = total
 
     @api.model_create_multi

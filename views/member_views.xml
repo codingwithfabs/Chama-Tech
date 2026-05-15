@@ -37,11 +37,17 @@
 
                         <notebook>
                             <page string="Contributions" name="contributions">
-                                <field name="contribution_ids">
-                                    <list editable="bottom" decoration-success="state == 'confirmed'" decoration-info="state == 'draft'">
+                                <field name="contribution_ids" domain="[('state', '!=', 'refused')]">
+                                    <list editable="bottom" 
+                                          decoration-success="state == 'validated'" 
+                                          decoration-info="state == 'pending'"
+                                          decoration-muted="state == 'draft'">
                                         <field name="date"/>
-                                        <field name="amount" sum="Total"/>
-                                        <field name="state" widget="badge"/>
+                                        <field name="transaction_id"/> 
+                                        <field name="amount" sum="Total Validated"/>
+                                        <field name="state" widget="badge" 
+                                               decoration-success="state == 'validated'" 
+                                               decoration-warning="state == 'pending'"/>
                                     </list>
                                 </field>
                             </page>
