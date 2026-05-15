@@ -6,7 +6,7 @@ class ChamaMember(models.Model):
     _description = 'Chama Group Member'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    partner_id = fields.Many2one('res.partner', string="Contact", required=True, tracking=True, ondelete='restrict')
+    partner_id = fields.Many2one('res.users', string="Contact", required=True, tracking=True, ondelete='restrict')
 
     name = fields.Char(related='partner_id.name', required=True, tracking=True, store=True, readonly=True)
     phone = fields.Char(string="Mpesa Number", required=True, tracking=True)
