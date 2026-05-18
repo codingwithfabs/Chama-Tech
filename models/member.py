@@ -6,13 +6,19 @@ class ChamaMember(models.Model):
     _description = 'Chama Group Member'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    partner_id = fields.Many2one('res.users', string="Contact", required=True, tracking=True, ondelete='restrict')
+    user_id = fields.Many2one('res.users', string="User Account", required=True, tracking=True, ondelete='cascade', default=lambda self: self.env.user)
 
-    name = fields.Char(related='partner_id.name', required=True, tracking=True, store=True, readonly=True)
+    name = fields.Char(related='user_id.name', required=True, tracking=True, store=True, readonly=True)
     phone = fields.Char(string="Mpesa Number", required=True, tracking=True)
     role_id = fields.Many2one('chamatech.role', string="Role", required=True, tracking=True)
     date_joined = fields.Date(string="Date Joined", default=fields.Date.context_today, required=True, tracking=True)
     date_left = fields.Date(string="Date Left", tracking=True, help="The date this member officially left the Chama.")
+
+    target_amount = fields.Integer(string="Goal Target", required=True, tracking=True, default=1000)
+
+    frequency = fields.Selection(selection=[("daily", "Daily"),
+                                            ("weekly", "Weekly"),
+                                            ("monthly", "Monthly")], string="Frequency", required=True, tracking=True)
 
     # Link to the list of contributions
     contribution_ids = fields.One2many('chamatech.mycontribution', 'member_id', string="Contributions")

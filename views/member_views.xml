@@ -23,9 +23,12 @@
                     <sheet>
                         <group>
                             <group string="Basic Information">
-                                <field name="partner_id" widget="many2one_avatar" context="{'show_address': 1}" />
+                                <field name="user_id" widget="many2one_avatar" context="{'show_address': 1}" />
                                 <field name="phone" />
                                 <field name="role_id" />
+                                <field name="target_amount" />
+                                <field name="frequency" />
+
                             </group>
                             <group string="Membership Status">
                                 <field name="date_joined" />
