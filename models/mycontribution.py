@@ -5,7 +5,7 @@ class MyContribution(models.Model):
     _description = 'My Contributions List'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    member_id = fields.Many2one('res.users', string="Member", default=lambda self: self.env.user.partner_id, required=True, tracking=True)
+    member_id = fields.Many2one('res.users', string="Member", default=lambda self: self.env.user, required=True, tracking=True)
     date = fields.Datetime(string="Date of Contribution", required=True, tracking=True, default=fields.Date.today)
     method = fields.Selection(selection=[("mpesa", "Mpesa"),
                                          ("card", "Card"),
