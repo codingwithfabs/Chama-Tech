@@ -6,13 +6,21 @@ class ChamaMember(models.Model):
     _description = 'Chama Group Member'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    partner_id = fields.Many2one('res.partner', string="Contact", required=True, tracking=True, ondelete='restrict')
+    partner_id = fields.Many2one('res.users', string="Contact", required=True, tracking=True, ondelete='restrict')
 
     name = fields.Char(related='partner_id.name', required=True, tracking=True, store=True, readonly=True)
     phone = fields.Char(string="Mpesa Number", required=True, tracking=True)
     role_id = fields.Many2one('chamatech.role', string="Role", required=True, tracking=True)
     date_joined = fields.Date(string="Date Joined", default=fields.Date.context_today, required=True, tracking=True)
     date_left = fields.Date(string="Date Left", tracking=True, help="The date this member officially left the Chama.")
+
+    # Link to the list of contributions
+    contribution_ids = fields.One2many('chamatech.mycontribution', 'member_id', string="Contributions")
+
+    # Total sum field
+    total_contributions = fields.Float(string="Total Contributions", compute='_compute_total_contributions', store=True, tracking=True)
+
+    history_ids = fields.One2many('chamatech.role.history', 'member_id', string="Role History")
 
     # Logic to prevent contributions after they leave
     active = fields.Boolean(default=True)
@@ -33,18 +41,16 @@ class ChamaMember(models.Model):
             # Check against the dynamic limit we set in the Role model
             if duplicate and len(duplicate) >= member.role_id.max_slots:
                 raise ValidationError(f"The role '{member.role_id.name}' is full.")
-    # Link to the list of contributions
-    contribution_ids = fields.One2many('chamatech.contribution', 'member_id', string="Contributions")
 
-    # Total sum field
-    total_contributions = fields.Float(string="Total Contributions", compute='_compute_total_contributions', store=True, tracking=True)
-
-    @api.depends('contribution_ids.amount')
+    @api.depends('contribution_ids.amount', 'contribution_ids.state')
     def _compute_total_contributions(self):
         for member in self:
-            confirmed = member.contribution_ids.filtered(lambda c: c.state == 'confirmed')
-            #Sum up all the amounts in the contribution_ids list
-            member.total_contributions = sum(member.contribution_ids.mapped('amount'))
+            # We explicity loop to avoid any recordset caching issues
+            total = 0.0
+            for line in member.contribution_ids:
+                if line.state == 'validated':
+                    total += line.amount
+            member.total_contributions = total
 
     @api.model_create_multi
     def create(self, vals_list):

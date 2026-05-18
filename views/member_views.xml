@@ -1,86 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-
-        <!-- List View -->
         <record id="chamamember_list" model="ir.ui.view">
-            <field name="name">chamamember_list</field>
+            <field name="name">chamatech.member.list</field>
             <field name="model">chamatech.member</field>
             <field name="arch" type="xml">
                 <list>
                     <field name="name" />
                     <field name="phone" />
                     <field name="role_id" />
-                    <field name="date_joined" /> <field name="total_contributions" sum="Grand Total" />
+                    <field name="date_joined" />
+                    <field name="total_contributions" sum="Grand Total" decoration-bf="1"/>
                 </list>
             </field>
         </record>
 
-        <!-- Form -->
         <record id="member_form" model="ir.ui.view">
-            <field name="name">member.form</field>
+            <field name="name">chamatech.member.form</field>
             <field name="model">chamatech.member</field>
             <field name="arch" type="xml">
                 <form>
                     <sheet>
                         <group>
-                            <group>
+                            <group string="Basic Information">
                                 <field name="partner_id" widget="many2one_avatar" context="{'show_address': 1}" />
                                 <field name="phone" />
                                 <field name="role_id" />
                             </group>
-                            <group>
+                            <group string="Membership Status">
                                 <field name="date_joined" />
                                 <field name="date_left" invisible="not date_left" />
                                 <field name="active" widget="boolean_toggle" />
+                                <field name="total_contributions" readonly="1" decoration-bf="1" />
                             </group>
                         </group>
+
+                        <notebook>
+                            <page string="Contributions" name="contributions">
+                                <field name="contribution_ids" domain="[('state', '!=', 'refused')]">
+                                    <list editable="bottom" 
+                                          decoration-success="state == 'validated'" 
+                                          decoration-info="state == 'pending'"
+                                          decoration-muted="state == 'draft'">
+                                        <field name="date"/>
+                                        <field name="transaction_id"/> 
+                                        <field name="amount" sum="Total Validated"/>
+                                        <field name="state" widget="badge" 
+                                               decoration-success="state == 'validated'" 
+                                               decoration-warning="state == 'pending'"/>
+                                    </list>
+                                </field>
+                            </page>
+
+                            <page string="Role History" name="history">
+                                <field name="history_ids" readonly="1">
+                                    <list create="false" edit="false">
+                                        <field name="role_id" />
+                                        <field name="date_assigned" />
+                                        <field name="date_resigned" />
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
                     </sheet>
                     <chatter/>
                 </form>
             </field>
         </record>
 
-        <!-- Search view filter -->
         <record id="view_member_filter" model="ir.ui.view">
             <field name="name">chamatech.member.search</field>
             <field name="model">chamatech.member</field>
             <field name="arch" type="xml">
-                <search>
+                <search string="Search Members">
                     <field name="name"/>
-                    <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                    <field name="phone"/>
+                    <field name="role_id"/>
+                    <filter string="Archived" name="is_inactive" domain="[('active', '=', False)]"/>
                 </search>
             </field>
         </record>
 
-        <record id="view_chama_member_form_inherit" model="ir.ui.view">
-            <field name="name">chamatech.member.form.inherit</field>
-            <field name="model">chamatech.member</field>
-            <field name="inherit_id" ref="chama_tech.member_form"/> 
-            <field name="arch" type="xml">
-                <xpath expr="//group" position="after">
-                    <group>
-                        <field name="total_contributions" readonly="1"/>
-                    </group>
-                    <notebook>
-                        <page string="Contributions" name="contributions">
-                            <field name="contribution_ids">
-                                <list editable="bottom">
-                                    <field name="date"/>
-                                    <field name="amount" sum="Total"/>
-                                </list>
-                            </field>
-                        </page>
-                    </notebook>
-                </xpath>
-            </field>
-        </record>
-
-        <!-- Action Window -->
         <record id="chamamember_action_window" model="ir.actions.act_window">
             <field name="name">Chama Member</field>
             <field name="res_model">chamatech.member</field>
             <field name="view_mode">list,form,kanban,pivot,graph</field>
+            <field name="search_view_id" ref="view_member_filter"/>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Create your first member
