@@ -17,16 +17,22 @@ class ChamaMember(models.Model):
     # Logic to prevent contributions after they leave
     active = fields.Boolean(default=True)
 
-    @api.constrains('role_id')
+    @api.constrains('role_id', 'active')
     def _check_unique_role_assignment(self):
         for member in self:
-            #Search for other members with the same role
+            if not member.active:
+                continue
+
+            # Search for OTHER active members with this same role
             duplicate = self.search([
                 ('role_id', '=', member.role_id.id),
-                ('id', '!=', member.id)
+                ('active', '=', True),
+                ('id', '!=', member.id) # Critical: Don't count yourself!
             ])
-            if duplicate:
-                raise ValidationError(f"The role '{member.role_id.name}' is already assigned to {duplicate[0].name}.")
+
+            # Check against the dynamic limit we set in the Role model
+            if duplicate and len(duplicate) >= member.role_id.max_slots:
+                raise ValidationError(f"The role '{member.role_id.name}' is full.")
     # Link to the list of contributions
     contribution_ids = fields.One2many('chamatech.contribution', 'member_id', string="Contributions")
 
@@ -56,31 +62,18 @@ class ChamaMember(models.Model):
         return members
 
     def write(self, vals):
-        # 1. If the role is changing, 'close' the old history record first
-        if 'role_id' in vals:
-            for member in self:
-                # Find the current active role history (no resignation date set)
-                old_history = self.env['chamatech.role.history'].search([
-                ('member_id', '=', member.id),
-                ('role_id', '=', member.role_id.id),
-                ('date_resigned', '=', False)
-                ], limit=1)
-
-                if old_history:
-                    old_history.write({'date_resigned': fields.Date.context_today(member)})
-
-        # 2. Standard save to update the actual member record
+        # 1. Standard save to update the member record first
         res = super(ChamaMember, self).write(vals)
 
-        # 3. Log the NEW history if the role changes
+        # 2. If the role was changed, create the new history record
+        # The history model's 'create' will now automatically handle closing the old one
         if 'role_id' in vals:
             for member in self:
-                if member.role_id:
-                    self.env['chamatech.role.history'].create({
-                        'role_id': member.role_id.id,
-                        'member_id': member.id,
-                        'date_assigned': fields.Date.context_today(member),
-                    })
+                self.env['chamatech.role.history'].create({
+                    'role_id': member.role_id.id,
+                    'member_id': member.id,
+                    'date_assigned': fields.Date.context_today(self),
+                })
         return res
     
     @api.onchange('active')

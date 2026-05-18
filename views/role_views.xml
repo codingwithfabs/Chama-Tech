@@ -21,12 +21,12 @@
                     <sheet>
                         <group>
                             <group>
-                                <field name="member_id" readonly="1"/>
-                                <field name="role_id" readonly="1"/>
+                                <field name="member_id" />
+                                <field name="role_id" />
                             </group>
                             <group>
-                                <field name="date_assigned" readonly="1"/>
-                                <field name="date_resigned" readonly="1"/>
+                                <field name="date_assigned" />
+                                <field name="date_resigned" />
                             </group>
                         </group>
                     </sheet>
@@ -43,15 +43,13 @@
                     <sheet>
                         <group>
                             <field name="name" />
-                            <field name="availability" />
-                            <field name="member_ids" widget="list" readonly="1"/>
+                            <field name="max_slots" /> <field name="availability" />
                         </group>
                         <notebook>
                             <page string="Ownership History" name="history">
-                                <field name="history_ids" readonly="1">
-                                    <list create="false" edit="false">
+                                <field name="history_ids" readonly="1"> <list create="false" edit="false">
                                         <field name="member_id" />
-                                        <field name="role_id" />
+                                        <field name="role_id" column_invisible="True"/>
                                         <field name="date_assigned" />
                                         <field name="date_resigned" />
                                     </list>
