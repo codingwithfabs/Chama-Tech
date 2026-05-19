@@ -35,3 +35,25 @@ class MyContribution(models.Model):
     def action_refuse(self):
         for record in self:
             record.state = 'refused'
+
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        # 1. Standard Odoo creation logic to save the user's contribution first
+        records = super(MyContribution, self).create(vals_list)
+        
+        for record in records:
+            # 2. Find the corresponding chamatech.member record that matches this res.user
+            chama_member = self.env['chamatech.member'].search([('user_id', '=', record.member_id.id)], limit=1)
+            
+            if chama_member:
+                # 3. Automatically inject/populate the record into the All Contributions table
+                self.env['chamatech.chamatech'].create({
+                    'member_id': chama_member.id,
+                    'my_contribution_id': record.id, # Links them together
+                    'amount': record.amount,
+                    'date': record.date,
+                    'description': f"M-Pesa Payment via Code: {record.transaction_id}",
+                })
+                
+        return records
