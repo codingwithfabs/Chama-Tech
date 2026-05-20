@@ -11,7 +11,8 @@ class ChamaTech(models.Model):
         'chamatech.member', 
         string="Member Name", 
         required=True, 
-        tracking=True, 
+        tracking=True,
+        ondelete='cascade',
         default=lambda self: self.env['chamatech.member'].search([('user_id', '=', self.env.user.id)], limit=1)
     )
 

@@ -47,7 +47,7 @@
                                           decoration-muted="state == 'draft'">
                                         <field name="date"/>
                                         <field name="transaction_id"/> 
-                                        <field name="amount" sum="Total Validated"/>
+                                        <field name="validated_amount" sum="Total Validated Amount"/>
                                         <field name="state" widget="badge" 
                                                decoration-success="state == 'validated'" 
                                                decoration-warning="state == 'pending'"/>

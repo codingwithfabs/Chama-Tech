@@ -8,7 +8,7 @@ class ChamaMember(models.Model):
 
     user_id = fields.Many2one('res.users', string="User Account", required=True, tracking=True, ondelete='cascade', default=lambda self: self.env.user)
 
-    name = fields.Char(related='user_id.name', required=True, tracking=True, store=True, readonly=True)
+    name = fields.Char(related='user_id.name', tracking=True, store=True, readonly=True)
     phone = fields.Char(string="Mpesa Number", required=True, tracking=True)
     role_id = fields.Many2one('chamatech.role', string="Role", required=True, tracking=True)
     date_joined = fields.Date(string="Date Joined", default=fields.Date.context_today, required=True, tracking=True)
