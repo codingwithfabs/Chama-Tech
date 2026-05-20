@@ -1,58 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data>
-    <!-- Views -->
-      <!-- List -->
     <record id="chamatech_list" model="ir.ui.view">
       <field name="name">chamatech_list</field> 
       <field name="model">chamatech.chamatech</field>
       <field name="arch" type="xml">
-        <list default_order="amount desc" decoration-bf="amount > 1000">
-          <field name="name" widget="many2one_avatar"/>
+        <list default_order="amount desc" decoration-bf="amount &gt; 1000">
+          <field name="member_id"/>
           <field name="amount" sum="Total Contributions"/>
-          <field name="target_amount" /> <field name="description"/>
+          <field name="description"/>
           <field name="status" widget="badge" decoration-info="status == 'in_progress'" decoration-success="status == 'goal_reached'"/>
-          <field name="frequency"/>
           <field name="date" />
         </list>
       </field>
     </record>
-    <!-- Pivot -->
+
     <record id="chamatech_pivot" model="ir.ui.view">
       <field name="name">chamatech_pivot</field>
       <field name="model">chamatech.chamatech</field>
       <field name="arch" type="xml">
         <pivot string="Financial Analysis" disable_linking="true">
-          <field name="name" type="row" />
+          <field name="member_id" type="row" />
           <field name="amount" type="measure" />
-          <!-- <field name="status" type="col"/> -->
-          <field name="frequency" type="col" /> 
         </pivot>
       </field>
     </record>
 
-    <!-- Kanban -->
     <record id="chamatech_kanban" model="ir.ui.view">
       <field name="name">chamatech_kanban</field>
       <field name="model">chamatech.chamatech</field>
       <field name="arch" type="xml">
         <kanban default_group_by="status">
-          <field name="name" />
+          <field name="member_id" />
           <field name="amount" />
           <field name="status" />
-          <field name="frequency" />
           <templates>
             <t t-name="card">
               <div class="oe_kanban_global_click">
                 <div class="o_kanban_record_top">
                   <strong>
-                    <field name="name" />
+                    <field name="member_id" />
                   </strong>
                 </div>
                 <div class="oe_kanban_details">
                   <span>Amount: </span> <field name="amount" />
-                  <br/>
-                  <span>Frequency: </span> <field name="frequency" />
                 </div>
                 <div class="o_kanban_record_bottom">
                   <span>Status: </span> <field name="status" />
@@ -64,24 +55,21 @@
       </field>
     </record>
 
-    <!-- Form -->
     <record id="chamatech_form" model="ir.ui.view">
       <field name="name">chamatech.form</field>
       <field name="model">chamatech.chamatech</field>
       <field name="arch" type="xml">
         <form> 
           <header>
-            <field name="status" widget="statusbar"/>
+            <field name="status" widget="statusbar" statusbar_visible="in_progress,goal_reached"/>
           </header>
           <sheet> 
             <group>
                 <group>
-                    <field name="name"/>
+                    <field name="member_id"/>
                     <field name="amount"/>
-                    <field name="target_amount"/>
                 </group>
                 <group>
-                    <field name="frequency"/>
                     <field name="date" />
                     <field name="status" readonly="1" force_save="1"/>
                 </group>
