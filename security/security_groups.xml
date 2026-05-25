@@ -1,28 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="1">
+    <record id="module_category_chama_tech" model="ir.module.category">
+        <field name="name">ChamaTech Management</field>
+        <field name="description">Access controls for the savings group platform.</field>
+        <field name="sequence">10</field>
+    </record>
 
-        <record id="module_category_chamatech" model="ir.module.category">
-            <field name="name">ChamaTech Management</field>
-            <field name="description">Access control groups for the savings and credit group platform.</field>
-        </record>
-        
-        <record id="group_chamatech_user" model="res.groups">
-            <field name="name">Base User (Welfare/Member)</field>
-            <field name="category_id" ref="module_category_chamatech"/>
-            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
-        </record>
+    <record id="group_chama_user" model="res.groups">
+        <field name="name">Base User (Welfare/Member)</field>
+        <field name="sequence">10</field>    
+    </record>
 
-        <record id="group_chamatech_manager" model="res.groups">
-            <field name="name">Manager (Secretary/Treasurer)</field>
-            <field name="category_id" ref="module_category_chamatech"/>
-            <field name="implied_ids" eval="[(4, ref('group_chamatech_user')), (4, ref('account.group_account_invoice'))]"/>
-        </record>
-
-        <record id="group_chamatech_admin" model="res.groups">
-            <field name="name">System Administrator (Chairperson)</field>
-            <field name="category_id" ref="module_category_chamatech"/>
-            <field name="implied_ids" eval="[(4, ref('group_chamatech_manager')), (4, ref('account.group_account_manager'))]"/>
-        </record>
-    </data>
+    <record id="group_chama_manager" model="res.groups">
+        <field name="name">Manager (Secretary/Treasurer)</field>
+        <field name="sequence">20</field>
+        <field name="implied_ids" eval="[(4, ref('chama_tech.group_chama_user'))]"/>
+    </record>
 </odoo>
